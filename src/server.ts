@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { connectMySQL, closeMySQL } from './infra/db/mysql';
 import { connectMongo, closeMongo } from './infra/db/mongo';
 import { logger } from './infra/middleware/logger';
