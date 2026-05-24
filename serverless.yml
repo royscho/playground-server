@@ -1,0 +1,43 @@
+service: playground-server
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    NODE_ENV: development
+    MYSQL_HOST: ${env:MYSQL_HOST}
+    MYSQL_PORT: ${env:MYSQL_PORT}
+    MYSQL_USER: ${env:MYSQL_USER}
+    MYSQL_PASSWORD: ${env:MYSQL_PASSWORD}
+    MYSQL_DATABASE: ${env:MYSQL_DATABASE}
+    MONGO_URI: ${env:MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    AWS_REGION: ${env:AWS_REGION}
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+    S3_BUCKET: ${env:S3_BUCKET}
+    SQS_QUEUE_URL: ${env:SQS_QUEUE_URL}
+    SNS_TOPIC_ARN: ${env:SNS_TOPIC_ARN}
+    SES_FROM_EMAIL: ${env:SES_FROM_EMAIL}
+
+functions:
+  api:
+    handler: dist/lambda.lambdaHandler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3001
+    noPrependStageInUrl: true
