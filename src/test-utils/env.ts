@@ -1,0 +1,16 @@
+process.env.NODE_ENV = 'test';
+process.env.MYSQL_HOST = 'localhost';
+process.env.MYSQL_PORT = '3306';
+process.env.MYSQL_USER = 'root';
+process.env.MYSQL_PASSWORD = 'secret';
+process.env.MYSQL_DATABASE = 'playground_test';
+process.env.MONGO_URI = 'mongodb://localhost:27017/playground_test';
+process.env.JWT_SECRET = 'test-secret';
+process.env.JWT_EXPIRES_IN = '1h';
+process.env.AWS_REGION = 'us-east-1';
+process.env.AWS_ACCESS_KEY_ID = 'test-key';
+process.env.AWS_SECRET_ACCESS_KEY = 'test-secret';
+process.env.S3_BUCKET = 'test-bucket';
+process.env.SQS_QUEUE_URL = 'https://sqs.us-east-1.amazonaws.com/000000000000/test-orders';
+process.env.SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:000000000000:test-notifications';
+process.env.SES_FROM_EMAIL = 'test@example.com';
