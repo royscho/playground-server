@@ -2,6 +2,7 @@ import { connectMySQL, closeMySQL } from './infra/db/mysql';
 import { connectMongo, closeMongo } from './infra/db/mongo';
 import { logger } from './infra/middleware/logger';
 import { getConfig } from './infra/config';
+import { startConsumer, stopConsumer } from './modules/notifications/consumer';
 import app from './app';
 
 let isShuttingDown = false;
@@ -16,7 +17,7 @@ async function start(): Promise<void> {
     logger.info(`Server running on port ${port}`);
   });
 
-  // startConsumer() — wired in Task 15
+  startConsumer();
 
   function shutdown(signal: string): void {
     if (isShuttingDown) return;
@@ -24,7 +25,7 @@ async function start(): Promise<void> {
     logger.info(`${signal} received — shutting down`);
 
     server.close(async () => {
-      // stopConsumer() — wired in Task 15
+      stopConsumer();
       await closeMySQL();
       await closeMongo();
       logger.info('Shutdown complete');
