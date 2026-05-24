@@ -8,6 +8,11 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFiles: ['<rootDir>/src/test-utils/env.ts'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.test.json',
+    },
+  },
 };
 
 export default config;

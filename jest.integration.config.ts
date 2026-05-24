@@ -9,6 +9,11 @@ const config: Config = {
   },
   setupFiles: ['<rootDir>/src/test-utils/env.ts'],
   testTimeout: 30000,
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.test.json',
+    },
+  },
 };
 
 export default config;
