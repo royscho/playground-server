@@ -14,4 +14,5 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT IGNORE INTO users (email, password_hash, name, is_admin)
-VALUES ('admin@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/RK.s5uO8e', 'Admin', TRUE);
+VALUES ('admin@example.com', '$2b$12$.HEQahTxSFIy/dvG9Hyqs./4Lj48XKKnjUVQG0bCnFgqy18aAN8iu', 'Admin', TRUE);
+-- password: admin123

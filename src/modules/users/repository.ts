@@ -36,7 +36,8 @@ export async function createUser(data: {
     'INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)',
     [data.email, data.passwordHash, data.name],
   );
-  const user = await findByEmail(data.email);
-  if (!user) throw new Error('User creation failed');
+  const result = await findByEmail(data.email);
+  if (!result) throw new Error('User creation failed');
+  const { passwordHash: _hash, ...user } = result;
   return user;
 }
