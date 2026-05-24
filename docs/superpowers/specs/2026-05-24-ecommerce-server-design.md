@@ -284,6 +284,45 @@ SES_FROM_EMAIL=noreply@example.com
 
 ---
 
+## 9. Database Transactions
+
+Order creation is the canonical transaction example — it must be atomic:
+
+```
+BEGIN
+  INSERT INTO orders (user_id, status, total)
+  INSERT INTO order_items (order_id, product_id, quantity, unit_price) × N
+COMMIT
+-- on any error: ROLLBACK, surface AppError to client
+```
+
+Implementation:
+- `mysql.ts` exposes `withTransaction(fn)` helper — acquires connection from pool, calls `BEGIN`, passes connection to `fn`, calls `COMMIT` or `ROLLBACK`
+- `orders.repository.ts` uses `withTransaction` for create
+- All other queries use the pool directly (no transaction needed)
+- Parameterized queries (`?` placeholders) throughout — prevents SQL injection
+
+---
+
+## 10. Graceful Shutdown
+
+`server.ts` registers SIGTERM + SIGINT handlers:
+
+```
+1. Stop accepting new HTTP connections (server.close())
+2. Wait for in-flight requests to finish (max 10s timeout)
+3. Stop SQS consumer poll loop
+4. Close MySQL connection pool
+5. Close Mongoose connection
+6. Exit process with code 0
+```
+
+- Ensures Docker / Kubernetes stops cleanly without dropped requests
+- SQS consumer checks a `isShuttingDown` flag to exit poll loop gracefully
+- Timeout forces exit after 10s to avoid hanging indefinitely
+
+---
+
 ## Out of Scope
 
 - Admin role management (admin flag hardcoded on seed user)
